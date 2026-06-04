@@ -4,11 +4,11 @@ COPY requirements.txt .
 COPY *.py .
 COPY *.ini .
 RUN pip install -r requirements.txt 
-ENV CART_HOST=<CART-SERVER-IPADDRESS> \
+ENV CART_HOST=cart \
     CART_PORT=8080 \
-    USER_HOST=<USER-SERVER-IPADDRESS> \
+    USER_HOST=user \
     USER_PORT=8080 \
-    AMQP_HOST=<RABBITMQ-SERVER-IPADDRESS> \
+    AMQP_HOST=rabbitmq \
     AMQP_USER=roboshop \
     AMQP_PASS=roboshop123
 
