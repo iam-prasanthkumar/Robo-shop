@@ -5,6 +5,6 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package 
 RUN mv target/shipping-1.0.jar shipping.jar 
-ENV CART_ENDPOINT=<CART-SERVER-IPADDRESS>:8080 \
-    DB_HOST=<MYSQL-SERVER-IPADDRESS>
+ENV CART_ENDPOINT=cart:8080 \
+    DB_HOST=mqsql
 CMD ["java", "-jar", "shipping.jar"]
