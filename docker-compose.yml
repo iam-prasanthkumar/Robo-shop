@@ -1,0 +1,89 @@
+services:
+  mongodb:
+    image: mongo:v1
+    container_name: mongo
+    volumes:
+      - mongodb-data:/data/db # Mounting the volume to persist MongoDB data
+  mysql:
+    image: mysql:v1
+    container_name: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql # Mounting the volume to persist MySQL data
+  catalogue:
+    image: catalogue:v1
+    container_name: catalogue
+    depends_on:
+      - mongodb
+  cart:
+    image: cart:v1
+    container_name: cart
+    depends_on:
+      - catalogue
+      - redis
+  payment:
+    image: payment:v1
+    container_name: payment
+    depends_on:
+      - mysql
+      - cart
+      - redis
+      - user
+  shipping:
+    image: shipping:v1
+    container_name: shipping
+    depends_on:
+      - mysql
+      - cart
+  user:
+    image: user:v1
+    container_name: user
+    depends_on:
+      - mongodb
+      - redis
+  redis:
+    image: redis:7
+    container_name: redis
+    volumes:
+      - redis-data:/data # Mounting the volume to persist Redis data
+  rabbitmq:
+    image: rabbitmq:3
+    container_name: rabbitmq
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq # Mounting the volume to persist RabbitMQ data
+    environment:
+            RABBITMQ_DEFAULT_USER: roboshop
+            RABBITMQ_DEFAULT_PASS: roboshop123
+  fontend:
+    image: frontend:v1
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - catalogue
+      - cart
+      - payment
+      - shipping
+      - user
+      - mysql
+      - mongodb
+      - redis
+
+networks:
+  default:
+    driver: bridge
+    name: roboshop
+    external: false # true if you have already created the network using "docker network create roboshop" command, false if you want docker-compose to create the network for you.
+
+volumes:
+  mongodb-data:
+    name: mongodb-data
+    external: false # true if you have already created the volume using "docker volume create mongo-data" command, false if you want docker-compose to create the volume for you.
+  mysql-data:
+    name: mysql-data
+    external: false # true if you have already created the volume using "docker volume create mysql-data" command, false if you want docker-compose to create the volume for you.
+  redis-data:
+    name: redis-data 
+    external: false # true if you have already created the volume using "docker volume create redis-data" command, false if you want docker-compose to create the volume for you.
+  rabbitmq-data:
+    name: rabbitmq-data
+    external: false # true if you have already created the volume using "docker volume create rabbitmq-data" command, false if you want docker-compose to create the volume for you.
