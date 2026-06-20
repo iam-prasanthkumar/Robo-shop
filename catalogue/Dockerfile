@@ -2,7 +2,7 @@
 FROM node:20-alpine AS builder
 WORKDIR /opt/server
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 # Stage 2: Runtime
 FROM node:20-alpine
