@@ -74,7 +74,7 @@ services:
     environment:
             RABBITMQ_DEFAULT_USER: roboshop
             RABBITMQ_DEFAULT_PASS: roboshop123
-  fontend:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
