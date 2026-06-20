@@ -1,8 +1,6 @@
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY static/ /usr/share/nginx/html/
-
-#USER nginx
 EXPOSE 8080
 
 # FROM nginx 
