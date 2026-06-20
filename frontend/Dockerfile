@@ -1,6 +1,13 @@
-FROM nginx 
-RUN rm -rf /usr/share/nginx/html/*
-RUN rm -rf /etc/nginx/nginx.conf
-RUN rm -rf /etc/nginx/conf.d/default.conf
+FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY static /usr/share/nginx/html/
+COPY static/ /usr/share/nginx/html/
+
+USER nginx
+EXPOSE 8080
+
+# FROM nginx 
+# RUN rm -rf /usr/share/nginx/html/*
+# RUN rm -rf /etc/nginx/nginx.conf
+# RUN rm -rf /etc/nginx/conf.d/default.conf
+# COPY nginx.conf /etc/nginx/nginx.conf
+# COPY static /usr/share/nginx/html/
