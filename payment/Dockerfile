@@ -1,15 +1,22 @@
 # Stage 1: Builder
 
-FROM python:3.12-slim AS builder
-RUN apt-get update && \
-    apt-get install -y gcc build-essential && \
-    rm -rf /var/lib/apt/lists/*
-WORKDIR /install
+FROM python:3.9.25-alpine3.21 AS builder
+
+WORKDIR /opt/server
+RUN apk add --no-cache \
+    build-base \
+    linux-headers \
+    pcre-dev \
 COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+RUN pip install --prefix=/install -r requirements.txt
 
 # Stage 2: Runtime
-FROM python:3.12-slim
+FROM python:3.9.25-alpine3.21
+EXPOSE 8080
+WORKDIR /opt/server
+RUN  apk add --no-cache pcre
+
+RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     CART_HOST=cart \
@@ -18,17 +25,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     USER_PORT=8080 \
     AMQP_HOST=rabbitmq \
     AMQP_USER=roboshop
-# Create non-root user
-RUN groupadd -r appgroup && \
-    useradd -r -g appgroup -d /opt/server -s /usr/sbin/nologin appuser
-WORKDIR /opt/server
 # Copy only installed packages from builder
 COPY --from=builder /install /usr/local
 # Copy application files
-COPY --chown=appuser:appgroup *.py .
-COPY --chown=appuser:appgroup *.ini .
+COPY --chown=roboshop:roboshop *.py .
+COPY --chown=roboshop:roboshop *.ini .
+COPY --chown=roboshop:roboshop requirements.txt .
 # Switch to non-root user
-USER appuser
+USER roboshop
 CMD ["uwsgi", "--ini", "payment.ini"]
 
 
