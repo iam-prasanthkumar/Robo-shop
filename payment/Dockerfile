@@ -6,7 +6,8 @@ WORKDIR /opt/server
 RUN apk add --no-cache \
     build-base \
     linux-headers \
-    pcre-dev \
+    pcre-dev 
+
 COPY requirements.txt .
 RUN pip install --prefix=/install -r requirements.txt
 
