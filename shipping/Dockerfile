@@ -8,12 +8,13 @@ RUN mvn clean package && \
 
 # Stage 2: Create lightweight runtime image
 FROM eclipse-temurin:17-jre-jammy
-RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
+RUN groupadd -r roboshop && useradd -r -g roboshop roboshop
 WORKDIR /opt/server
 COPY --from=builder --chown=roboshop:roboshop /opt/server/target/shipping-1.0.jar shipping.jar
 EXPOSE 8080
 ENV CART_ENDPOINT=cart:8080 \
     DB_HOST=mysql
+USER roboshop
 CMD ["java", "-jar", "shipping.jar"]
 
 
