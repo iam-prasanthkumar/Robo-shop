@@ -8,7 +8,7 @@ RUN mvn clean package && \
 
 # Stage 2: Create lightweight runtime image
 FROM eclipse-temurin:17-jre-jammy
-RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
+RUN addgroup -r roboshop && adduser -r -g roboshop roboshop
 WORKDIR /opt/server
 COPY --from=builder --chown=roboshop:roboshop /opt/server/target/shipping-1.0.jar shipping.jar
 EXPOSE 8080
