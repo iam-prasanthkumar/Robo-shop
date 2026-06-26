@@ -3,7 +3,7 @@ services:
     build:
       context: ./mongodb
       dockerfile: Dockerfile
-    image: mongo:v1
+    image: prasanthkumar30/mongo:v1
     container_name: mongo
     volumes:
       - mongodb-data:/data/db # Mounting the volume to persist MongoDB data
@@ -11,7 +11,7 @@ services:
     build:
       context: ./mysql
       dockerfile: Dockerfile
-    image: mysql:v1
+    image: prasanthkumar30/mysql:v1
     container_name: mysql
     volumes:
       - mysql-data:/var/lib/mysql # Mounting the volume to persist MySQL data
@@ -19,7 +19,7 @@ services:
     build:
       context: ./catalogue
       dockerfile: Dockerfile
-    image: catalogue:v1
+    image: prasanthkumar30/catalogue:v1
     container_name: catalogue
     depends_on:
       - mongodb
@@ -27,7 +27,7 @@ services:
     build:
       context: ./cart
       dockerfile: Dockerfile
-    image: cart:v1
+    image: prasanthkumar30/cart:v1
     container_name: cart
     depends_on:
       - catalogue
@@ -36,7 +36,7 @@ services:
     build:
       context: ./payment
       dockerfile: Dockerfile
-    image: payment:v1
+    image: prasanthkumar30/payment:v1
     container_name: payment
     depends_on:
       - mysql
@@ -47,7 +47,7 @@ services:
     build:
       context: ./shipping
       dockerfile: Dockerfile
-    image: shipping:v1
+    image: prasanthkumar30/shipping:v1
     container_name: shipping
     depends_on:
       - mysql
@@ -56,13 +56,13 @@ services:
     build:
       context: ./user
       dockerfile: Dockerfile
-    image: user:v1
+    image: prasanthkumar30/user:v1
     container_name: user
     depends_on:
       - mongodb
       - redis
   redis:
-    image: redis:7
+    image: prasanthkumar30/redis:7
     container_name: redis
     volumes:
       - redis-data:/data # Mounting the volume to persist Redis data
@@ -78,7 +78,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: frontend:v1
+    image: prasanthkumar30/frontend:v1
     container_name: frontend
     ports:
       - "80:80"

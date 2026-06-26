@@ -3,14 +3,14 @@
  
 # List of images to push
 IMAGES=(
-"cart:v1"      
-"catalogue:v1"     
-"frontend:v1"   
-"mongo:v1"       
-"mysql:v1"       
-"payment:v1"          
-"shipping:v1"        
-"user:v1"
+"prasanthkumar30/cart:v1"      
+"prasanthkumar30/catalogue:v1"     
+"prasanthkumar30/frontend:v1"   
+"prasanthkumar30/mongo:v1"       
+"prasanthkumar30/mysql:v1"       
+"prasanthkumar30/payment:v1"          
+"prasanthkumar30/shipping:v1"        
+"prasanthkumar30/user:v1"
 )
  
 # Push each image
